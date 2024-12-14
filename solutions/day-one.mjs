@@ -1,5 +1,5 @@
-import { getContents } from '../utilities/files.mjs';
-import { sortAsc } from '../utilities/general.mjs';
+import { getFileContents } from '../utilities/files.mjs';
+import { sortAsc, transformStringToArray, trimEmptyLinesFromArray } from '../utilities/general.mjs';
 
 const sampleData = `
 3   4
@@ -7,14 +7,10 @@ const sampleData = `
 2   5
 1   3
 3   9
-3   3`
+3   3`;
 
-function getInput(useSample = true) {
-  return useSample ? sampleData.split('\n') : getContents('day-one.txt');
-}
-
-function processInput(rawInput) {
-  const lines = rawInput.filter((line) => line.length > 0);
+function buildListsFromInput(rawInput) {
+  const lines = trimEmptyLinesFromArray(rawInput);
   const leftList = [];
   const rightList = [];
   lines.forEach(line => {
@@ -25,9 +21,11 @@ function processInput(rawInput) {
   return [leftList, rightList];
 }
 
-function solvePuzzleOne(useSample) {
-  const input = getInput(useSample);
-  const [leftList, rightList] = processInput(input);
+/**
+ * Solution for Puzzle One
+ */
+function solvePuzzleOne(input) {
+  const [leftList, rightList] = buildListsFromInput(input);
 
   leftList.sort(sortAsc);
   rightList.sort(sortAsc);
@@ -53,9 +51,11 @@ function getListValueFrequencies(intList) {
   return listCounts;
 }
 
-function solvePuzzleTwo(useSample) {
-  const input = getInput(useSample);
-  const [leftList, rightList] = processInput(input);
+/**
+ * Solution for Puzzle Two
+ */
+function solvePuzzleTwo(input) {
+  const [leftList, rightList] = buildListsFromInput(input);
 
   leftList.sort(sortAsc);
   rightList.sort(sortAsc);
@@ -71,8 +71,11 @@ function solvePuzzleTwo(useSample) {
   return similarityScore;
 }
 
-console.log(solvePuzzleOne(true));
-console.log(solvePuzzleOne(false));
+const sampleInput = transformStringToArray(sampleData, '\n');
+const fileInput = transformStringToArray(getFileContents('day-one.txt'));
 
-console.log(solvePuzzleTwo(true));
-console.log(solvePuzzleTwo(false));
+console.log(solvePuzzleOne(sampleInput)); // expected: 11
+console.log(solvePuzzleOne(fileInput));   // expected: 3246517
+
+console.log(solvePuzzleTwo(sampleInput)); // expected: 31
+console.log(solvePuzzleTwo(fileInput));   // expected: 29379307
