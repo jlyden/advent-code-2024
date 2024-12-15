@@ -71,11 +71,15 @@ function solvePuzzleTwo(input) {
   return similarityScore;
 }
 
-const sampleInput = transformStringToArray(sampleData, '\n');
-const fileInput = transformStringToArray(getFileContents('day-one.txt'));
+function runPuzzles() {
+  const sampleInput = transformStringToArray(sampleData, '\n');
+  const fileInput = transformStringToArray(getFileContents('day-one.txt'));
+  
+  console.log(solvePuzzleOne(sampleInput)); // expected: 11
+  console.log(solvePuzzleOne(fileInput));   // expected: 3246517
+  
+  console.log(solvePuzzleTwo(sampleInput)); // expected: 31
+  console.log(solvePuzzleTwo(fileInput));   // expected: 29379307
+}
 
-console.log(solvePuzzleOne(sampleInput)); // expected: 11
-console.log(solvePuzzleOne(fileInput));   // expected: 3246517
-
-console.log(solvePuzzleTwo(sampleInput)); // expected: 31
-console.log(solvePuzzleTwo(fileInput));   // expected: 29379307
+runPuzzles();

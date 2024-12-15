@@ -7,3 +7,5 @@ https://adventofcode.com/2024
 ## Status
 * [x] Day 1
 * [ ] Day 2
+  * [x] Puzzle 1
+  * [ ] Puzzle 2

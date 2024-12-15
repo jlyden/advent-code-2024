@@ -18,46 +18,57 @@ function isSafeLevelChange(a, b) {
   return 0 < change && change < 4;
 }
 
-function isSafeReport(levels) {
+function findBadLevel(levels) {
   if (!isSafeLevelChange(levels[0], levels[1])) {
-    return false;
+    return 0;
   }
 
   const rowIsAsc = isAscending(levels[0], levels[1]);
-  const maxIter = levels.length - 1;
+  const maxIter = levels.length;
   for (let i = 2; i < maxIter; i++) {
     if (!isSafeLevelChange(levels[i-1], levels[i])) {
-      return false;
+        return i;
     }
 
     if (isAscending(levels[i-1], levels[i]) !== rowIsAsc) {
-      return false;
+      return i;
     }
   }
 
-  return true;
+  return null;
 }
 
 /**
- * Solution for Puzzle One
+ * Solution for Puzzles
  */
-function solvePuzzleOne(input) {
+function solvePuzzle(input, withTolerance = false) {
   const reports = trimEmptyLinesFromArray(input);
-  let safeReports = 0;
+  let safeReportCount = 0;
+
   reports.forEach(report => {
     const levels = report.split(' ').map((value) => parseInt(value));
-    if (isSafeReport(levels)) {
-      safeReports ++;
+    if (findBadLevel(levels) === null) {
+      safeReportCount ++;
     }
   });
 
-  return safeReports;
+  return safeReportCount;
 }
 
-//const sampleInput = transformStringToArray(sampleData, '\n');
-//const fileInput = transformStringToArray(getFileContents('day-two.txt'));
+function runPuzzles() {
+  const sampleInput = transformStringToArray(sampleData, '\n');
+  const fileInput = transformStringToArray(getFileContents('day-two.txt'));
 
-//console.log(solvePuzzleOne(sampleInput)); // expected: 2
-//console.log(solvePuzzleOne(fileInput));   // 619 is too low
+  console.log(solvePuzzle(sampleInput)); // expected: 2
+  console.log(solvePuzzle(fileInput));   // expected 606
 
-export { solvePuzzleOne };
+  // Puzzle 2 is not solved
+  const withTolerance = true; // for Puzzle Two
+  console.log(solvePuzzle(sampleInput, withTolerance)); // expected: 4
+  console.log(solvePuzzle(fileInput, withTolerance));   // 637 is too low
+}
+
+/* if you want to run passing tests, comment out `runPuzzles();` below */
+runPuzzles();
+
+export { solvePuzzle };
