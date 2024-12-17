@@ -24,6 +24,7 @@ function findBadLevel(levels) {
   }
 
   const rowIsAsc = isAscending(levels[0], levels[1]);
+
   const maxIter = levels.length;
   for (let i = 2; i < maxIter; i++) {
     if (!isSafeLevelChange(levels[i-1], levels[i])) {
@@ -38,20 +39,62 @@ function findBadLevel(levels) {
   return null;
 }
 
+function rerunReportWithTolerance(levels, badLevel) {
+  // Try removing level that failed
+  const tryFirstLevels = [...levels];
+  tryFirstLevels.splice(badLevel, 1);
+
+  const tryFirstBadLevel = findBadLevel(tryFirstLevels);
+  if (tryFirstBadLevel === null) {
+    return true;
+  }
+
+  // Try removing first level (maybe it's an ASC/DESC thing)
+  const trySecondLevels = [...levels];
+  trySecondLevels.splice(0, 1);
+  const trySecondBadLevel = findBadLevel(trySecondLevels);
+  if (trySecondBadLevel === null) {
+    return true;
+  }
+
+  // Try removing level under level that failed
+  if (badLevel === 0) {
+    return false;
+  }
+
+  const tryThirdLevels = [...levels];
+  tryThirdLevels.splice(badLevel - 1, 1);
+  const tryThirdBadLevel = findBadLevel(tryThirdLevels);
+  if (tryThirdBadLevel === null) {
+    return true;
+  }
+
+  return false;
+}
+
 /**
  * Solution for Puzzles
  */
 function solvePuzzle(input, withTolerance = false) {
   const reports = trimEmptyLinesFromArray(input);
   let safeReportCount = 0;
+  const badReports = [];
 
   reports.forEach(report => {
     const levels = report.split(' ').map((value) => parseInt(value));
-    if (findBadLevel(levels) === null) {
+
+    const badLevel = findBadLevel(levels);
+    if (badLevel === null) {
       safeReportCount ++;
+    } else if (withTolerance) {
+      const tryAgainSuccess = rerunReportWithTolerance(levels, badLevel);
+      if (tryAgainSuccess) {
+        safeReportCount ++;
+      } else {
+        badReports.push(levels)
+      }
     }
   });
-
   return safeReportCount;
 }
 
@@ -65,10 +108,10 @@ function runPuzzles() {
   // Puzzle 2 is not solved
   const withTolerance = true; // for Puzzle Two
   console.log(solvePuzzle(sampleInput, withTolerance)); // expected: 4
-  console.log(solvePuzzle(fileInput, withTolerance));   // 637 is too low
+  console.log(solvePuzzle(fileInput, withTolerance));   // 641 is too low
 }
 
 /* if you want to run passing tests, comment out `runPuzzles();` below */
-runPuzzles();
+//runPuzzles();
 
 export { solvePuzzle };
