@@ -9,3 +9,4 @@ https://adventofcode.com/2024
 * [ ] Day 2
   * [x] Puzzle 1
   * [ ] Puzzle 2
+* [ ] Day 3

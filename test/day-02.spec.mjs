@@ -1,6 +1,6 @@
 import assert from 'node:assert';
 import { describe, it } from 'node:test';
-import { solvePuzzle } from '../solutions/day-two.mjs';
+import { solvePuzzle } from '../solutions/day-02.mjs';
 
 /**
  * NOTE: Tests will not run successfully unless `runPuzzles();`

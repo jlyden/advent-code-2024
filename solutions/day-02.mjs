@@ -100,7 +100,7 @@ function solvePuzzle(input, withTolerance = false) {
 
 function runPuzzles() {
   const sampleInput = transformStringToArray(sampleData, '\n');
-  const fileInput = transformStringToArray(getFileContents('day-two.txt'));
+  const fileInput = transformStringToArray(getFileContents('day-02.txt'));
 
   console.log(solvePuzzle(sampleInput)); // expected: 2
   console.log(solvePuzzle(fileInput));   // expected 606

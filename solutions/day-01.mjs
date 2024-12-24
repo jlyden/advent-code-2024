@@ -73,7 +73,7 @@ function solvePuzzleTwo(input) {
 
 function runPuzzles() {
   const sampleInput = transformStringToArray(sampleData, '\n');
-  const fileInput = transformStringToArray(getFileContents('day-one.txt'));
+  const fileInput = transformStringToArray(getFileContents('day-01.txt'));
   
   console.log(solvePuzzleOne(sampleInput)); // expected: 11
   console.log(solvePuzzleOne(fileInput));   // expected: 3246517
